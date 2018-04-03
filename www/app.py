@@ -3,10 +3,7 @@
 ''' test Web App Frame
     based on asyncio and aiohttp
 '''
-import asyncio
-import os
-import json
-import time
+import asyncio, os, json, time
 from datetime import datetime
 from aiohttp import web
 
