@@ -1,0 +1,25 @@
+# Requests.txt
+python3.5+
+aiohttp
+jinja2
+aiomysql
+
+-----------------
+Structure
+awesome-webapp/
+|
++-backup/
+|
++-conf/
+|
++-dist/
+|
++-www/
+|   |
+|   +-static/
+|   |
+|   +-templates/
+|
++-ios/
+|
++-LICENSE
