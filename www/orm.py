@@ -1,6 +1,8 @@
 # orm.py
 # -*- coding: utf-8 -*-
 # day3
+# https://github.com/michaelliao/awesome-python3-webapp/blob/day-03/www/orm.py
+
 r''' choose MySQL as database.
      encapsulate SELECT INSERT UPDATE and DELETE with functions.
      Because Web Frame used aiohttp which is based on asyncio( a
@@ -9,6 +11,9 @@ r''' choose MySQL as database.
      principle: once async, always async.
      aiomysql provides async io driver for MySQL database.
 ''' 
+
+# BooleanField, IntegerField, FloatField, TextField
+# findAll, findNumber, update, remove..
 
 import asyncio
 import aiomysql
@@ -115,12 +120,25 @@ class Model(dict, metaclass=ModelMetaclass):
     # user = yield from User.find('123')
     @classmethod
     @asyncio.coroutine
-    def fine(cls, pk):
+    def find(cls, pk):
         'find object by primarykey'
-        rs = yield from select('%s where `%s`=?' % (cls.__select__, cls.__primary_key__), [pk], 1)
+        rs = yield from select('%s where %s`=?' % (cls.__select__, cls.__primary_key__), [pk], 1)
         if len(rs) == 0:
             return None
         return cls(**rs[0])
+
+    # save method, save instance to database
+    # user = User(id=123, name='Michael')
+    # yield from user.save()
+    # user.save() only create a coroutine
+    # only "yield from user.save()" will execute it
+    @asyncio.coroutine
+    def save(self):
+        args = list(map(self.getValueOrDefault, self.__fields__))
+        args.append(self.getValueOrDefault(self.__primary_key__))
+        rows = yield from execute(self.__insert__, args)
+        if rows != 1:
+            logging.warn('failed to insert recode: affected rows: %s' % rows)
 
 class Field(object):
     def __init__(self, name, column_type, primary_key, default):
