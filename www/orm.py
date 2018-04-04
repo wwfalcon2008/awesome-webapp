@@ -1,6 +1,7 @@
 # orm.py
 # -*- coding: utf-8 -*-
 # day3
+# methods need to be modified
 # https://github.com/michaelliao/awesome-python3-webapp/blob/day-03/www/orm.py
 
 
